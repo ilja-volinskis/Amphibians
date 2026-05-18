@@ -1,6 +1,7 @@
 package com.example.amphibians.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,11 +19,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.amphibians.R
 import com.example.amphibians.model.AmphibianData
+import com.example.amphibians.ui.theme.AmphibiansTheme
 
 @Composable
 fun AmphibiansList(
@@ -85,5 +88,21 @@ fun AmphibianCard(
                     .padding(8.dp)
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AmphibiansListScreenPreview() {
+    AmphibiansTheme {
+        val mockData = List(10) {
+            AmphibianData(
+                "Lorem Ipsum - $it",
+                "$it",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                imgSrc = ""
+            )
+        }
+        AmphibiansList(mockData, Modifier.fillMaxSize())
     }
 }
