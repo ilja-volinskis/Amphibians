@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Amphibians</string>
+    <string name="amphibians">Amphibians</string>
+    <string name="amphibian">Amphibian</string>
 </resources>

@@ -8,7 +8,7 @@ interface AmphibianDataRepository {
 }
 
 class NetworkAmphibianDataRepository(
-private val apiService: AmphibianApiService
+    private val apiService: AmphibianApiService
 ): AmphibianDataRepository {
     override suspend fun getAmphibians(): List<AmphibianData> {
         return apiService.getAmphibians()
