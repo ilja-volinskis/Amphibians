@@ -1,29 +1,33 @@
 package com.example.amphibians.ui
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.amphibians.model.AmphibianData
-import com.example.amphibians.ui.model.AmphibianUiState
-import com.example.amphibians.ui.model.AmphibianViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.amphibians.R
+import com.example.amphibians.ui.model.AmphibianUiState
+import com.example.amphibians.ui.model.AmphibianViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -76,8 +80,13 @@ fun AmphibianHomeScreen(
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     when (uiState) {
-        is AmphibianUiState.Error -> AmphibianErrorScreen(modifier.fillMaxSize())
-        is AmphibianUiState.Loading -> AmphibianLoadingScreen(modifier.fillMaxSize())
+        is AmphibianUiState.Error -> AmphibianErrorScreen(
+            retryAction = retryAction,
+            modifier = modifier.fillMaxSize()
+        )
+        is AmphibianUiState.Loading -> AmphibianLoadingScreen(
+            modifier = modifier.fillMaxSize()
+        )
         is AmphibianUiState.Success -> AmphibiansList(
             amphibians = uiState.data,
             modifier = modifier
@@ -89,10 +98,38 @@ fun AmphibianHomeScreen(
 
 @Composable
 fun AmphibianLoadingScreen(modifier: Modifier = Modifier) {
-
+    Image(
+        painter = painterResource(R.drawable.loading_img),
+        contentDescription = stringResource(R.string.loading),
+        modifier = modifier.size(200.dp)
+    )
 }
 
 @Composable
-fun AmphibianErrorScreen(modifier: Modifier = Modifier) {
+fun AmphibianErrorScreen(
+    retryAction: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = modifier
+    ) {
+        Image(
+            painter = painterResource(R.drawable.ic_broken_image),
+            contentDescription = stringResource(R.string.error_loading_content),
+            modifier = Modifier.size(200.dp)
+        )
+        Text(
+            text = stringResource(R.string.error_loading_content)
+        )
+        OutlinedButton(
+            onClick = retryAction
+        ) {
+            Text(
+                text = stringResource(R.string.retry)
+            )
+        }
+    }
 
 }
